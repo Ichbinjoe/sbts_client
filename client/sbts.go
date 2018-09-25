@@ -75,6 +75,12 @@ func Do(network, address, file string, cfg *Config) (e error, r io.ReadCloser) {
 		return
 	}
 
+	e = w.Flush()
+	if e != nil {
+		c.Close()
+		return
+	}
+
 	br := bufio.NewReader(c)
 	lenErr, e := binary.ReadVarint(br)
 	if e != nil {
