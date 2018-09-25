@@ -26,7 +26,7 @@ type readcloser struct {
 }
 
 func (r *readcloser) Close() error {
-	return r.Close()
+	return r.c.Close()
 }
 
 func (r *readcloser) Read(b []byte) (int, error) {
@@ -102,7 +102,7 @@ func Do(network, address, file string, cfg *Config) (e error, r io.ReadCloser) {
 	}
 
 	return nil, &readcloser{
-		io.LimitReader(r, lenErr),
-		c,
+		r: io.LimitReader(br, lenErr),
+		c: c,
 	}
 }
